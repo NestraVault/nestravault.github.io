@@ -63,6 +63,8 @@ h2{font-family:'Serif',serif;font-weight:400;font-size:clamp(36px,5vw,52px);line
 .card{background:var(--raised);border:1px solid var(--rule);border-radius:16px;padding:22px}
 .card h3{font-size:19px;margin-bottom:6px}
 .card p{font-size:16px;color:var(--muted)}
+.tag{display:inline-block;font-size:13px;font-weight:600;color:var(--brass);background:var(--brassbg);border-radius:6px;padding:3px 9px;margin-bottom:10px}
+.card.idea{background:var(--greenbg);border-color:transparent}
 .ticks{list-style:none;display:grid;gap:12px;font-size:19px}
 .ticks li{display:flex;gap:12px;align-items:flex-start}
 .ticks li:before{content:'✓';flex:none;width:28px;height:28px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-size:15px;margin-top:1px}
@@ -165,6 +167,21 @@ footer a{margin:0 8px}
       <li>We never see your documents, and can't reset your password, so keep it safe.</li>
     </ul>
     <p style="margin-top:22px"><a href="https://github.com/tijorivault/tijori-releases/blob/main/PRIVACY.md">Read the privacy policy</a></p>
+  </div>
+</section>
+
+<section id="coming-next">
+  <div class="wrap">
+    <h2>Coming next</h2>
+    <p class="sub">What we're working on. No dates promised; Tijori updates itself when each one arrives.</p>
+    <div class="grid2">
+      <div class="card"><span class="tag">Planned</span><h3>Health records</h3><p>Lab reports and test results for every family member, with your values tracked over time, in the same encrypted vault.</p></div>
+      <div class="card"><span class="tag">Planned</span><h3>Automatic backup to Google Drive</h3><p>An encrypted copy saved to your own Google Drive by itself, so a new phone can pick up where the old one left off.</p></div>
+      <div class="card"><span class="tag">Planned</span><h3>On the Google Play Store</h3><p>Install and update with one tap, like any other app.</p></div>
+      <div class="card"><span class="tag">Planned</span><h3>Hindi and more Indian languages</h3><p>The whole app in the language your family is most comfortable with.</p></div>
+      <div class="card"><span class="tag">Later</span><h3>Use on two phones</h3><p>Keep your vault in step across your phone and tablet, synced through your own Google Drive, still encrypted.</p></div>
+      <div class="card idea"><h3>Have an idea?</h3><p>Tell us what would help your family. <a href="https://github.com/tijorivault/tijori-releases/issues/new?title=Feature%20idea%3A%20">Suggest a feature</a></p></div>
+    </div>
   </div>
 </section>
 
