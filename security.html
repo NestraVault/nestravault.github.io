@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How Tijori protects your data</title>
+<meta name="description" content="Which encryption Tijori uses, how your password becomes a key, what leaves your phone, and what Tijori does not protect against.">
+<meta name="theme-color" content="#0E4A3D">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<style>
+@font-face{font-family:'Serif';src:url(assets/fonts/InstrumentSerif-Regular.ttf) format('truetype');font-display:swap}
+@font-face{font-family:'Sans';font-weight:400;src:url(assets/fonts/SchibstedGrotesk-Regular.ttf) format('truetype');font-display:swap}
+@font-face{font-family:'Sans';font-weight:600;src:url(assets/fonts/SchibstedGrotesk-SemiBold.ttf) format('truetype');font-display:swap}
+:root{--paper:#F6F3EA;--raised:#FFFDF7;--ink:#191B19;--muted:#55594F;--rule:#D8D2C3;--green:#0E4A3D;--brass:#7A4E00;--brassbg:#F3E6C8}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:'Sans',system-ui,sans-serif;font-size:18px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--green)}
+.wrap{max-width:1040px;margin:0 auto;padding:0 22px}
+header{display:flex;align-items:center;gap:12px;padding:22px 0}
+header img{width:40px;height:40px;border-radius:10px}
+header b{font-family:'Serif',serif;font-weight:400;font-size:30px}
+h1,h2{font-family:'Serif',serif;font-weight:400;line-height:1.05}
+.doc{max-width:760px;margin:0 auto;padding:8px 22px 56px}
+.doc h1{font-size:clamp(40px,7vw,64px);margin:8px 0 14px;letter-spacing:-.5px}
+.doc h2{font-size:clamp(28px,4vw,38px);margin:44px 0 10px}
+.doc p,.doc li{margin-bottom:12px}
+.doc ul{padding-left:22px;margin-bottom:12px}
+.doc code{font-family:ui-monospace,Consolas,monospace;font-size:15px;background:var(--raised);border:1px solid var(--rule);border-radius:6px;padding:1px 6px}
+.lead{font-size:21px;color:var(--muted)}
+.back{display:inline-block;margin:6px 0 0;font-size:16px}
+.limits{background:var(--brassbg);color:#4a2f00;border-radius:14px;padding:16px 20px 6px;margin-top:10px}
+footer{padding:40px 0 60px;color:var(--muted);font-size:15px;text-align:center;border-top:1px solid var(--rule)}
+footer a{margin:0 8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><img src="assets/icon.svg" alt=""><b>Tijori</b></header>
+</div>
+<main class="doc">
+<a class="back" href="./">&larr; Back to Tijori</a>
+<h1>How Tijori protects your data</h1>
+<p class="lead">This page says what Tijori does, with the real algorithms, and what it does not do. Tijori is not open source and has not had an independent security audit, so read this as the author's description, and ask if anything is unclear.</p>
+
+<h2>The whole picture</h2>
+<p>Read it from the top. Your password and your fingerprint each open a locked copy of one master key. Everything else comes from that key.</p>
+<!--arch-start-->
+<style>
+.arch{--paper:#F6F3EA;--raised:#FFFDF7;--ink:#191B19;--muted:#55594F;--rule:#D8D2C3;--green:#0E4A3D;--greenbg:#DDE9E2;--brass:#7A4E00;--brassbg:#F3E6C8;
+  margin:22px 0 8px;display:flex;flex-direction:column;gap:0;font-size:16px;line-height:1.4}
+.arch .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.arch .node{border:1px solid var(--rule);border-radius:12px;padding:14px 16px;background:var(--raised)}
+.arch .node b{display:block;font-size:18px;margin-bottom:3px;color:var(--ink)}
+.arch .node span{color:var(--muted);font-size:15px}
+.arch .you{background:var(--brassbg);border-color:transparent}
+.arch .you b{color:var(--brass)}
+.arch .you span{color:#5c3b00}
+.arch .master{background:var(--green);border-color:var(--green)}
+.arch .master b,.arch .master span{color:#fff}
+.arch .master span{opacity:.92}
+.arch .derived{background:var(--greenbg);border-color:transparent}
+.arch .data b{color:var(--green)}
+.arch .arrow{display:flex;align-items:center;justify-content:center;gap:10px;padding:8px 0;color:var(--muted);font-size:14px}
+.arch .arrow svg{width:18px;height:22px;flex:none}
+.arch .zone{margin-top:6px;padding:10px 14px;border:1.5px dashed var(--green);border-radius:14px}
+.arch .zone-label{font-size:13px;font-weight:600;color:var(--green);margin:0 0 8px 2px}
+.arch .out{margin-top:16px;border-radius:12px;padding:14px 16px;background:var(--brassbg);color:#4a2f00;font-size:15px}
+.arch .out b{display:block;margin-bottom:3px}
+.arch .out ul{margin:4px 0 0 18px}
+.arch .out li{margin:0 0 2px}
+@media (max-width:560px){.arch .row{grid-template-columns:1fr}}
+</style>
+
+<figure class="arch" aria-label="How Tijori locks your documents">
+  <div class="row">
+    <div class="node you"><b>Your Vault Password</b><span>You type it to set up, to change security settings, and whenever the fingerprint can't be used.</span></div>
+    <div class="node you"><b>Fingerprint or screen lock</b><span>The everyday unlock. Android checks it, not Tijori.</span></div>
+  </div>
+  <div class="arrow"><svg viewBox="0 0 18 22" fill="none" stroke="#55594F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 1v18M3 13l6 6 6-6"/></svg><span>each opens its own locked copy of</span></div>
+  <div class="row">
+    <div class="node "><b>Argon2id</b><span>Turns your password into a key. It is slow on purpose: 64 MiB of memory, 3 passes and a random salt, so every guess costs an attacker real work.</span></div>
+    <div class="node "><b>Android Keystore</b><span>Android's own key storage, which on most phones is backed by secure hardware. Its key only works after your fingerprint or screen lock.</span></div>
+  </div>
+  <div class="arrow"><svg viewBox="0 0 18 22" fill="none" stroke="#55594F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 1v18M3 13l6 6 6-6"/></svg><span>both unlock the same one thing</span></div>
+  <div class="node master"><b>Master key</b><span>256 random bits, made once on your phone and kept only in locked form. Your documents are never locked with your password directly, so changing your password re-locks just this one key.</span></div>
+  <div class="arrow"><svg viewBox="0 0 18 22" fill="none" stroke="#55594F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 1v18M3 13l6 6 6-6"/></svg><span>HKDF-SHA256, with a different label for each</span></div>
+  <div class="row">
+    <div class="node derived"><b>Database key</b><span>Opens the database.</span></div>
+    <div class="node derived"><b>File key</b><span>Opens the scanned pages and photos.</span></div>
+  </div>
+  <div class="arrow"><svg viewBox="0 0 18 22" fill="none" stroke="#55594F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 1v18M3 13l6 6 6-6"/></svg><span>lock</span></div>
+  <div class="zone">
+    <p class="zone-label">Stays on your phone</p>
+    <div class="row">
+      <div class="node data"><b>Encrypted database</b><span>SQLCipher 4: names, document numbers, dates and notes.</span></div>
+      <div class="node data"><b>Encrypted files</b><span>AES-256-GCM, one file at a time: every scanned page and photo.</span></div>
+    </div>
+  </div>
+  <div class="out">
+    <b>Leaves your phone only when you choose</b>
+    <ul>
+      <li><b style="display:inline">A backup file:</b> locked with a password you pick (Argon2id, then AES-256-GCM in numbered 64 KiB pieces). It goes where you save it.</li>
+      <li><b style="display:inline">A shared document:</b> a normal, <u>unencrypted</u> copy for the app you pick. Tijori warns you first and never shares a CVV.</li>
+      <li>Once a day the app asks GitHub if a new version exists. Nothing about you or your documents is sent. You can turn it off.</li>
+    </ul>
+  </div>
+</figure>
+
+<!--arch-end-->
+<h2>What is encrypted</h2>
+<ul>
+<li><b>The database</b> (names, document numbers, dates, notes) is encrypted with SQLCipher 4, through SQLite3MultipleCiphers. Temporary tables stay in memory, never in temporary files.</li>
+<li><b>Every scanned page and photo</b> is encrypted on its own with AES-256-GCM, using a random nonce and tied to the file's own id. Changing a single byte of a stored file makes it fail to open.</li>
+<li>Pages you view are decrypted in memory. Any temporary copy is cleared each time the app starts.</li>
+</ul>
+
+<h2>Keys, in plain words</h2>
+<ul>
+<li>When you set up the vault, Tijori makes one random 256-bit <b>master key</b> from the phone's secure random generator. Your documents are never locked with your password directly.</li>
+<li>The database key and the file key are both derived from the master key with HKDF-SHA256, each with its own label.</li>
+<li>The master key is kept in two locked forms: one opened by your <b>Vault Password</b>, and one held by the <b>Android Keystore</b> that needs your fingerprint or screen lock to open. The everyday unlock uses the second.</li>
+<li>Changing your password only re-locks the master key. Your documents are not re-encrypted.</li>
+</ul>
+
+<h2>How your password becomes a key</h2>
+<p>The Vault Password goes through <b>Argon2id</b> (64 MiB of memory, 3 passes, a random 16-byte salt) to make the key that unlocks the master key. Argon2id is deliberately slow and memory-hungry, so every guess costs an attacker real work. The settings are stored with the data, so they can be raised in a future version without locking you out. Tijori uses the open-source <code>cryptography</code> package for these algorithms and does not invent its own.</p>
+
+<h2>Backups</h2>
+<ul>
+<li>A backup is one file, encrypted with a key made from the password you choose (Argon2id again) and AES-256-GCM, in 64 KiB pieces. Each piece is numbered, the last one is marked as the last, and all pieces are tied to the file's header. A file with a piece changed, removed, moved, added or copied from another backup is refused.</li>
+<li>Tijori re-reads the backup after writing it and checks every piece before it says the backup worked.</li>
+<li>A backup is only as strong as its password. When you choose a separate backup password, Tijori refuses easy-to-guess ones.</li>
+</ul>
+
+<h2>What leaves your phone</h2>
+<ul>
+<li>Nothing, unless you send it. There is no account, no server, no ads and no analytics.</li>
+<li>The one network use is a <b>once-a-day check for a new version</b> on GitHub, which you can switch off in Settings.</li>
+<li>When you install an update, Tijori checks the file's fingerprint. The next version (1.0.3) also checks that the file has Tijori's package name and is signed by the same developer key as the app you have, before it opens the installer. Android applies its own signature check as well.</li>
+<li>When you share a document, the shared copy is <b>not encrypted</b>. Tijori warns you first. A card's CVV is never shared.</li>
+<li>Screenshots and the recent-apps preview are blocked inside the app. Copied numbers clear from the clipboard after the time you choose, and the vault locks after the time you choose.</li>
+</ul>
+
+<h2>What Tijori does not protect against</h2>
+<div class="limits">
+<ul>
+<li><b>Someone holding your unlocked phone,</b> or watching you type your password.</li>
+<li><b>Malware or a rooted phone.</b> Software that can read other apps' memory can see keys while the vault is open. Encryption on disk cannot stop that.</li>
+<li><b>A weak password.</b> If someone gets a copy of your vault or a backup file, the password is the only thing between them and your data, and they can keep guessing offline. Use a long passphrase.</li>
+<li><b>Forgetting your password.</b> Nobody can recover the data, including the author. Keep a backup.</li>
+<li><b>Documents you share,</b> and anything you copy and paste elsewhere.</li>
+</ul>
+</div>
+
+<h2>Honest status</h2>
+<ul>
+<li>The encryption uses standard, widely reviewed algorithms through well-known libraries. That does not make the app free of mistakes.</li>
+<li>Tijori has <b>not</b> had an independent security audit, and the source code is not public.</li>
+<li>Found something? Please report it through <a href="https://github.com/tijorivault/tijori-releases/issues">GitHub issues</a>, without posting any real document or number.</li>
+</ul>
+</main>
+
+<footer>
+  <div class="wrap">
+    Made with love in India by Tijori Vault<br>
+    <a href="./">Home</a>
+    <a href="https://github.com/tijorivault/tijori-releases/blob/main/PRIVACY.md">Privacy</a>
+    <a href="https://github.com/tijorivault/tijori-releases/releases">All releases</a>
+  </div>
+</footer>
+</body>
+</html>

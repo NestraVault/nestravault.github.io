@@ -81,6 +81,12 @@ footer a{margin:0 8px}
   .phone{width:200px}
   .steps,.grid2{grid-template-columns:1fr}
 }
+
+.trust{display:grid;grid-template-columns:.9fr 1.1fr;gap:40px;align-items:center}
+.trust img{width:100%;height:auto;border-radius:18px;border:1px solid var(--rule);display:block}
+.trust .ticks{font-size:18px;margin:18px 0 22px}
+.trust .more{display:inline-block;background:var(--green);color:#fff;text-decoration:none;font-weight:600;padding:14px 24px;border-radius:50px}
+@media (max-width:820px){.trust{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -170,6 +176,27 @@ footer a{margin:0 8px}
   </div>
 </section>
 
+<section id="trust">
+  <div class="wrap">
+    <h2>Built to be checked</h2>
+    <p class="sub">You are trusting this app with your family's IDs, so here is exactly how it protects them, with the real algorithm names and the limits.</p>
+    <div class="trust">
+      <a href="security.html"><img src="assets/architecture.png" alt="Diagram: your password and fingerprint each open a locked copy of one master key, which makes the database key and file key that lock your documents on your phone" loading="lazy" width="1080" height="1350"></a>
+      <div>
+        <ul class="ticks">
+          <li>One random master key locks everything. Your password only locks that key, so changing it never re-encrypts your documents.</li>
+          <li>Your password goes through Argon2id, which is slow on purpose, so every guess costs an attacker real work.</li>
+          <li>The database uses SQLCipher and every scanned page uses AES-256-GCM. Standard algorithms, nothing home-made.</li>
+          <li>The only internet use is a once-a-day update check, which you can turn off. No account, no ads, no analytics.</li>
+          <li>Every release is signed with the same key. Its fingerprint is listed under Questions below.</li>
+        </ul>
+        <p class="sub" style="margin-bottom:18px">Honest status: Tijori has not had an independent security audit, and the source code is not public yet. The page below says what it does and what it does not protect against.</p>
+        <a class="more" href="security.html">See how your data is protected</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="coming-next">
   <div class="wrap">
     <h2>Coming next</h2>
@@ -215,6 +242,7 @@ footer a{margin:0 8px}
 <footer>
   <div class="wrap">
     Made with love in India by Tijori Vault<br>
+    <a href="security.html">How your data is protected</a>
     <a href="https://github.com/tijorivault/tijori-releases/blob/main/PRIVACY.md">Privacy</a>
     <a href="https://github.com/tijorivault/tijori-releases/releases">All releases</a>
     <a href="https://github.com/tijorivault/tijori-releases/issues">Report a problem</a>
