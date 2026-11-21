@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Open a Tijori backup file on a computer, without the app.
+"""Open a Nestra backup file on a computer, without the app.
 
-Tijori backups are meant to be readable by you, forever, without us. This
+Nestra backups are meant to be readable by you, forever, without us. This
 script opens one with the password you chose when you made it, checks that
 nothing in it was changed, and writes out:
 
@@ -15,7 +15,7 @@ Needs Python 3.9+ and two common libraries:
 
 Run:
 
-    python tijori_backup_decrypt.py MyBackup.dvault  output-folder
+    python nestra_backup_decrypt.py MyBackup.dvault  output-folder
 
 It asks for the password (nothing is shown as you type) and never sends
 anything anywhere. The format is described in BACKUP_FORMAT.md.
@@ -54,10 +54,10 @@ def read_outer(path: Path):
             header_bytes = z.read("header.json")
             payload = z.read("payload.bin")
     except (zipfile.BadZipFile, KeyError) as e:
-        raise BackupError("This is not a Tijori backup file.") from e
+        raise BackupError("This is not a Nestra backup file.") from e
     header = json.loads(header_bytes)
     if header.get("magic") != MAGIC:
-        raise BackupError("This is not a Tijori backup file.")
+        raise BackupError("This is not a Nestra backup file.")
     if header.get("format") != 1:
         raise BackupError(f"Unknown backup format {header.get('format')}.")
     return header_bytes, header, payload
@@ -130,7 +130,7 @@ def extract(plain: bytes, out_dir: Path) -> dict:
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description="Open a Tijori backup without the app.")
+    ap = argparse.ArgumentParser(description="Open a Nestra backup without the app.")
     ap.add_argument("backup", type=Path, help="the .dvault file")
     ap.add_argument("out", type=Path, help="folder to write the contents to")
     ap.add_argument("--password", help="(avoid: it shows in your shell history)")

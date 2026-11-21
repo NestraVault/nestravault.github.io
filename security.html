@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>How Tijori protects your data</title>
-<meta name="description" content="Which encryption Tijori uses, how your password becomes a key, what leaves your phone, and what Tijori does not protect against.">
+<title>How Nestra protects your data</title>
+<meta name="description" content="Which encryption Nestra uses, how your password becomes a key, what leaves your phone, and what Nestra does not protect against.">
 <meta name="theme-color" content="#0E4A3D">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
@@ -36,12 +36,12 @@ footer a{margin:0 8px}
 </head>
 <body>
 <div class="wrap">
-  <header><img src="assets/icon.svg" alt=""><b>Tijori</b></header>
+  <header><img src="assets/icon.svg" alt=""><b>Nestra</b></header>
 </div>
 <main class="doc">
-<a class="back" href="./">&larr; Back to Tijori</a>
-<h1>How Tijori protects your data</h1>
-<p class="lead">This page says what Tijori does, with the real algorithms, and what it does not do. Tijori is not open source and has not had an independent security audit, so read this as the author's description, and ask if anything is unclear.</p>
+<a class="back" href="./">&larr; Back to Nestra</a>
+<h1>How Nestra protects your data</h1>
+<p class="lead">This page says what Nestra does, with the real algorithms, and what it does not do. Nestra is not open source and has not had an independent security audit, so read this as the author's description, and ask if anything is unclear.</p>
 
 <h2>The whole picture</h2>
 <p>Read it from the top. Your password and your fingerprint each open a locked copy of one master key. Everything else comes from that key.</p>
@@ -72,10 +72,10 @@ footer a{margin:0 8px}
 @media (max-width:560px){.arch .row{grid-template-columns:1fr}}
 </style>
 
-<figure class="arch" aria-label="How Tijori locks your documents">
+<figure class="arch" aria-label="How Nestra locks your documents">
   <div class="row">
     <div class="node you"><b>Your Vault Password</b><span>You type it to set up, to change security settings, and whenever the fingerprint can't be used.</span></div>
-    <div class="node you"><b>Fingerprint or screen lock</b><span>The everyday unlock. Android checks it, not Tijori.</span></div>
+    <div class="node you"><b>Fingerprint or screen lock</b><span>The everyday unlock. Android checks it, not Nestra.</span></div>
   </div>
   <div class="arrow"><svg viewBox="0 0 18 22" fill="none" stroke="#55594F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 1v18M3 13l6 6 6-6"/></svg><span>each opens its own locked copy of</span></div>
   <div class="row">
@@ -101,7 +101,7 @@ footer a{margin:0 8px}
     <b>Leaves your phone only when you choose</b>
     <ul>
       <li><b style="display:inline">A backup file:</b> locked with a password you pick (Argon2id, then AES-256-GCM in numbered 64 KiB pieces). It goes where you save it.</li>
-      <li><b style="display:inline">A shared document:</b> a normal, <u>unencrypted</u> copy for the app you pick. Tijori warns you first and never shares a CVV.</li>
+      <li><b style="display:inline">A shared document:</b> a normal, <u>unencrypted</u> copy for the app you pick. Nestra warns you first and never shares a CVV.</li>
       <li>Once a day the app asks GitHub if a new version exists. Nothing about you or your documents is sent. You can turn it off.</li>
     </ul>
   </div>
@@ -117,32 +117,32 @@ footer a{margin:0 8px}
 
 <h2>Keys, in plain words</h2>
 <ul>
-<li>When you set up the vault, Tijori makes one random 256-bit <b>master key</b> from the phone's secure random generator. Your documents are never locked with your password directly.</li>
+<li>When you set up the vault, Nestra makes one random 256-bit <b>master key</b> from the phone's secure random generator. Your documents are never locked with your password directly.</li>
 <li>The database key and the file key are both derived from the master key with HKDF-SHA256, each with its own label.</li>
 <li>The master key is kept in two locked forms: one opened by your <b>Vault Password</b>, and one held by the <b>Android Keystore</b> that needs your fingerprint or screen lock to open. The everyday unlock uses the second.</li>
 <li>Changing your password only re-locks the master key. Your documents are not re-encrypted.</li>
 </ul>
 
 <h2>How your password becomes a key</h2>
-<p>The Vault Password goes through <b>Argon2id</b> (64 MiB of memory, 3 passes, a random 16-byte salt) to make the key that unlocks the master key. Argon2id is deliberately slow and memory-hungry, so every guess costs an attacker real work. The settings are stored with the data, so they can be raised in a future version without locking you out. Tijori uses the open-source <code>cryptography</code> package for these algorithms and does not invent its own.</p>
+<p>The Vault Password goes through <b>Argon2id</b> (64 MiB of memory, 3 passes, a random 16-byte salt) to make the key that unlocks the master key. Argon2id is deliberately slow and memory-hungry, so every guess costs an attacker real work. The settings are stored with the data, so they can be raised in a future version without locking you out. Nestra uses the open-source <code>cryptography</code> package for these algorithms and does not invent its own.</p>
 
 <h2>Backups</h2>
 <ul>
 <li>A backup is one file, encrypted with a key made from the password you choose (Argon2id again) and AES-256-GCM, in 64 KiB pieces. Each piece is numbered, the last one is marked as the last, and all pieces are tied to the file's header. A file with a piece changed, removed, moved, added or copied from another backup is refused.</li>
-<li>Tijori re-reads the backup after writing it and checks every piece before it says the backup worked.</li>
-<li>A backup is only as strong as its password. When you choose a separate backup password, Tijori refuses easy-to-guess ones.</li>
+<li>Nestra re-reads the backup after writing it and checks every piece before it says the backup worked.</li>
+<li>A backup is only as strong as its password. When you choose a separate backup password, Nestra refuses easy-to-guess ones.</li>
 </ul>
 
 <h2>What leaves your phone</h2>
 <ul>
 <li>Nothing, unless you send it. There is no account, no server, no ads and no analytics.</li>
 <li>The one network use is a <b>once-a-day check for a new version</b> on GitHub, which you can switch off in Settings.</li>
-<li>When you install an update, Tijori checks the file's fingerprint. The next version (1.0.3) also checks that the file has Tijori's package name and is signed by the same developer key as the app you have, before it opens the installer. Android applies its own signature check as well.</li>
-<li>When you share a document, the shared copy is <b>not encrypted</b>. Tijori warns you first. A card's CVV is never shared.</li>
+<li>When you install an update, Nestra checks the file's fingerprint. The next version (1.0.3) also checks that the file has Nestra's package name and is signed by the same developer key as the app you have, before it opens the installer. Android applies its own signature check as well.</li>
+<li>When you share a document, the shared copy is <b>not encrypted</b>. Nestra warns you first. A card's CVV is never shared.</li>
 <li>Screenshots and the recent-apps preview are blocked inside the app. Copied numbers clear from the clipboard after the time you choose, and the vault locks after the time you choose.</li>
 </ul>
 
-<h2>What Tijori does not protect against</h2>
+<h2>What Nestra does not protect against</h2>
 <div class="limits">
 <ul>
 <li><b>Someone holding your unlocked phone,</b> or watching you type your password.</li>
@@ -156,17 +156,17 @@ footer a{margin:0 8px}
 <h2>Honest status</h2>
 <ul>
 <li>The encryption uses standard, widely reviewed algorithms through well-known libraries. That does not make the app free of mistakes.</li>
-<li>Tijori has <b>not</b> had an independent security audit, and the source code is not public.</li>
-<li>Found something? Please report it through <a href="https://github.com/tijorivault/tijori-releases/issues">GitHub issues</a>, without posting any real document or number.</li>
+<li>Nestra has <b>not</b> had an independent security audit, and the source code is not public.</li>
+<li>Found something? Please report it through <a href="https://github.com/nestravault/nestra-releases/issues">GitHub issues</a>, without posting any real document or number.</li>
 </ul>
 </main>
 
 <footer>
   <div class="wrap">
-    Made with love in India by Tijori Vault<br>
+    Made with love in India by Nestra<br>
     <a href="./">Home</a>
-    <a href="https://github.com/tijorivault/tijori-releases/blob/main/PRIVACY.md">Privacy</a>
-    <a href="https://github.com/tijorivault/tijori-releases/releases">All releases</a>
+    <a href="https://github.com/nestravault/nestra-releases/blob/main/PRIVACY.md">Privacy</a>
+    <a href="https://github.com/nestravault/nestra-releases/releases">All releases</a>
   </div>
 </footer>
 </body>

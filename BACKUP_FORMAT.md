@@ -1,7 +1,7 @@
-# Tijori backup format (version 1)
+# Nestra backup format (version 1)
 
-A Tijori backup is one file (`.dvault`). This page describes it, so that your
-backups stay readable without the app. `tijori_backup_decrypt.py` in this
+A Nestra backup is one file (`.dvault`). This page describes it, so that your
+backups stay readable without the app. `nestra_backup_decrypt.py` in this
 folder implements exactly this, in about 100 lines.
 
 ## Layout
